@@ -1,0 +1,2 @@
+a='tanmay'
+print "a
