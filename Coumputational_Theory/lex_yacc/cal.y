@@ -1,0 +1,49 @@
+ %{
+	#include<stdio.h>
+	#include<stdlib.h>
+	#include<math.h>
+	#define YYSTYPE double
+%}
+%token NUMBER NAME
+%left LE GE NE EQ
+%left '+' '-'
+%left '*' '/'
+%left '^'
+%nonassoc UMINUS;
+
+%%
+
+statement:NAME'='exp|
+	exp{printf("%f\n",$1);};
+
+	exp:NUMBER {$$=$1;}
+	|exp '+' exp {$$=$1+$3;}
+	|exp '-' exp {$$=$1-$3;}
+	|exp '*' exp {$$=$1*$3;}
+	|exp '/' exp {$$=$1/$3;}
+	|exp '^' exp {$$=pow($1,$3);}
+	|exp EQ exp {$$=$1==$3;}
+	|exp NE exp {$$=$1!=$3;}
+	|exp LE exp {$$=$1<=$3;}
+	|exp GE exp {$$=$1>=$3;};
+	
+%%
+#include "lex.yy.c"
+int main()
+{
+	while (1)
+	{
+	  yyparse();
+	}	
+}
+int yyerror()
+{
+	
+}
+int yywrap()
+{
+	return 1;
+}
+
+
+
